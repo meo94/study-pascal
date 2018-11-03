@@ -44,7 +44,7 @@ var myfile: text;
 (*Chuong trinh chinh*)
 begin
     (*File UCLN se co 2 dong*)
-    assign(myfile, 'ucln.txt');
+    assign(myfile, '20181103_ucln.txt');
     reset(myfile); // che do doc file
     while not eof(myfile) do
     begin
