@@ -1,18 +1,31 @@
 program kaprekar;
 
-type intArray= array[1..10] of integer;
-var idx, j,B,K, ketqua: integer;
+type intArray= array[1..10000] of integer;
+var i,j,B,K, ketqua: integer;
 (* Luu so X duoi dang mang cac chu so. So X co k chu so -> mang X co k phan tu *)
 var X: intArray;
 var myfile:text;
 
-function TimSoKaprekar(So: intArray):integer;
+function ChuyenTuKSang10(So: intArray; hedem: integer): integer;
+var idx, result: integer;
 begin
-    for idx:=1 to K do
+    result:= 0;
+    for idx:= 1 to K do
+        result:= result * hedem + So[idx]; 
+    ChuyenTuKSang10:= result;
+end;
+
+function TimSoKaprekar(So: intArray):integer;
+var idx: integer;
+begin
+    for idx :=1 to K do
         write(So[idx]);
     writeln();
+    writeln(ChuyenTuKSang10(So, B));
+    
     TimSoKaprekar:= 0; // khong tim thay
 end;
+
 (* Chuong trinh chinh *)
 begin
     (* Input *)
@@ -20,33 +33,23 @@ begin
     reset(myfile);
     read(myfile, B); read(myfile, K);
     close(myfile);
-    // khoi tao so X dau tien 012..(K-1)
-    for idx:=1 to K do
-    begin
-        X[idx]:= idx-1;
-    end;
-    (* Process *)
-    ketqua:= TimSoKaprekar(X);
-    idx:= K;
-    while(idx >= K-1) do
-    begin
-        if(X[idx] < B-K+ idx + 1) then // gia tri tai X[idx] nho hon max tai vi tri idx
-        begin
-            X[idx]:= X[idx] + 1;
-            TimSoKaprekar(X);
-        end;
-        (*
-        begin
-            X[idx]:= X[idx] + 1; // tăng giá trị cho đến khi đạt max
-            for j:=idx+1 to K-1 do
-                X[j]:= X[j-1] + 1;
-            TimSoKaprekar(X);
 
-            idx:=K;
+    for i:=1 to K do X[i]:= i-1; // khoi tao so X dau tien 012..(K-1)
+    (* Process *)
+    i:=K;
+    repeat
+        ketqua:= TimSoKaprekar(X);
+        i:=K; // dat i o cuoi day de kiem tra voi moi tap con dau la vi tri dat max gan nhat (ke tu cuoi day).Neu ko mac dinh se la cuoi day
+        while(i>0) and (x[i]=(B-1) - K + i) do // kiem tra vi tri i nao da dat max
+        begin 
+            i:= i - 1; // lui den khi gap vi tri i dat max
         end;
-        *)
-        idx:= idx-1;
-    end;
+        if i > 0 then // chua lui toi vi tri 0
+        begin
+            x[i]:=x [i] + 1;
+            for j:= i+1 to K do X[j]:= X[j-1] + 1;
+        end;
+    until (i=0);
     
     (* Output *)
     assign(myfile, 'kaprekar.out');
