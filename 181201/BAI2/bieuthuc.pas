@@ -27,7 +27,7 @@ begin
         signs
     // input
     assign(myfile, 'bieuthuc.inp');
-    reset(myfile); // che do doc file
+    reset(myfile);
     read(myfile, M);
     close(myfile);
 
