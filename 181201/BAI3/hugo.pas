@@ -50,6 +50,7 @@ begin
     begin
         read(file_inp, x); read(file_inp, y); readln(file_inp, z);
         graph[x,y]:= z;
+        graph[y,x]:= z;
     end;
     close(file_inp);
     (*INPUT - END*)
